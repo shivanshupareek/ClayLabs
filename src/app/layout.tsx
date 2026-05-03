@@ -1,17 +1,29 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "../styles/globals.scss";
 
 // =============================================================================
 // FONTS
-// PLACEHOLDER: Replace with Figma-specified fonts when designs are shared.
-// Swapping fonts = change these two declarations + update fallbacks below.
-// CSS variables --font-heading and --font-body are used throughout the SCSS
-// system, so the swap propagates everywhere automatically.
+//
+// Body:    Inter (Google Font)
+// Heading: Poke (custom OTF) — PENDING font file
+//
+// To activate Poke:
+//   1. Place Poke.otf at src/app/fonts/Poke.otf
+//   2. Replace the Playfair_Display import with:
+//        import localFont from "next/font/local"
+//        const poke = localFont({
+//          src: "./fonts/Poke.otf",
+//          variable: "--font-heading",
+//          display: "swap",
+//          preload: false,
+//          fallback: ["Georgia", "Times New Roman", "serif"],
+//        })
+//   3. Swap `playfairDisplay.variable` → `poke.variable` in the <html> className
 // =============================================================================
 
-// Primary body font — preloaded for LCP
-const dmSans = DM_Sans({
+// Primary body font — preloaded (drives LCP)
+const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500"],
   display: "swap",
@@ -19,8 +31,8 @@ const dmSans = DM_Sans({
   fallback: ["system-ui", "Arial", "sans-serif"],
 });
 
-// Heading / display font — not preloaded (decorative/secondary per AGENTS.md)
-const cormorant = Cormorant_Garamond({
+// TEMPORARY heading placeholder — replace with Poke once OTF is provided
+const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   display: "swap",
@@ -31,8 +43,6 @@ const cormorant = Cormorant_Garamond({
 
 // =============================================================================
 // METADATA
-// Root defaults — every page must override alternates.canonical with its own URL.
-// OG images must exist at the referenced public/ paths (1200×630px).
 // =============================================================================
 
 export const metadata: Metadata = {
@@ -126,7 +136,6 @@ export const metadata: Metadata = {
 
 // =============================================================================
 // VIEWPORT
-// Exported separately — Next.js 16 requires this outside the metadata object.
 // =============================================================================
 
 export const viewport: Viewport = {
@@ -139,10 +148,8 @@ export const viewport: Viewport = {
 };
 
 // =============================================================================
-// JSON-LD — Site-wide structured data
-// LocalBusiness + EducationalOrganization for a pottery teaching studio.
-// Page-specific schemas (Course, Event, etc.) belong in their own page.tsx.
-// XSS note: < is replaced with \u003c per Next.js 16 JSON-LD guide.
+// JSON-LD — site-wide structured data
+// XSS note: < replaced with \u003c per Next.js 16 JSON-LD guide.
 // =============================================================================
 
 const jsonLd = {
@@ -191,7 +198,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-AU"
-      className={`${dmSans.variable} ${cormorant.variable}`}
+      className={`${inter.variable} ${playfairDisplay.variable}`}
     >
       <body>
         {/* Skip-to-main-content — first focusable element, WCAG 2.4.1 */}
