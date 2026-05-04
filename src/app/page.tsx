@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Hero from "./_components/(landing)/Hero/Hero";
+import SessionsSection from "./_components/(landing)/SessionsSection/SessionsSection";
 
 export const metadata: Metadata = {
   alternates: {
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <main id="main-content">
       <Hero />
+      <SessionsSection />
     </main>
   );
 }
