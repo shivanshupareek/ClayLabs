@@ -79,8 +79,8 @@ const nextConfig: NextConfig = {
   // Add remote domains here when external image sources are needed.
   // ---------------------------------------------------------------------------
   images: {
-    formats: ["image/avif", "image/webp"],
-    qualities: [75, 85, 90],
+    formats: ["image/webp"],
+    qualities: [75, 85, 90, 100],
     remotePatterns: [],
   },
 

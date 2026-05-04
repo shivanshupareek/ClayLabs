@@ -50,9 +50,9 @@ export default function Navbar() {
             get started
           </a>
 
-          {/* suppressHydrationWarning: server renders "light" default; client
-              reads the real data-theme set by the init script. The aria-label
-              and icon may differ — this is intentional and cosmetically safe. */}
+          {/* Both icons are always rendered; CSS controlled by data-theme
+              on <html> swaps which is visible — no React hydration mismatch.
+              suppressHydrationWarning covers the aria-label attribute only. */}
           <button
             type="button"
             suppressHydrationWarning
@@ -60,11 +60,8 @@ export default function Navbar() {
             onClick={toggleTheme}
             aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
           >
-            {isDark ? (
-              <Sun size={16} strokeWidth={1.5} aria-hidden="true" />
-            ) : (
-              <Moon size={16} strokeWidth={1.5} aria-hidden="true" />
-            )}
+            <Moon size={16} strokeWidth={1.5} aria-hidden="true" className={styles.moonIcon} />
+            <Sun size={16} strokeWidth={1.5} aria-hidden="true" className={styles.sunIcon} />
           </button>
         </div>
       </nav>

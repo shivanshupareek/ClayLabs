@@ -37,8 +37,6 @@ Claylabs is a pottery teaching class in Australia which:
 
 - Warm pastel colours
 - Soft gradients
-- Glassmorphism (subtle)
-- Grain texture overlay
 - Elements should feel embedded, not floating
 
 ---

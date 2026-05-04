@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Hero from "./_components/(landing)/Hero/Hero";
 
 export const metadata: Metadata = {
   alternates: {
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main id="main-content">
-      {/* Sections go here */}
+      <Hero />
     </main>
   );
 }

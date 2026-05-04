@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
+import Script from "next/script";
 import "../styles/globals.scss";
 
 // =============================================================================
@@ -101,19 +102,12 @@ export const metadata: Metadata = {
 
   icons: {
     icon: [
-      { url: "/assets/favicons/favicon.ico" },
-      {
-        url: "/assets/favicons/favicon-16x16.png",
-        sizes: "16x16",
-        type: "image/png",
-      },
-      {
-        url: "/assets/favicons/favicon-32x32.png",
-        sizes: "32x32",
-        type: "image/png",
-      },
+      { url: "/assets/favicons/Favicon.ico", type: "image/x-icon" },
+      { url: "/assets/favicons/favicon.svg", type: "image/svg+xml" },
+      { url: "/assets/favicons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/assets/favicons/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
-    apple: [{ url: "/assets/favicons/apple-touch-icon.png" }],
+    apple: [{ url: "/assets/favicons/apple-touch-icon.png", sizes: "180x180" }],
   },
 
   manifest: "/site.webmanifest",
@@ -201,11 +195,14 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${inter.variable} ${poxe.variable}`}
     >
-      <head>
-        {/* Blocking theme script — must be first in <head> to prevent FOUC */}
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-      </head>
       <body>
+        {/* Blocking theme script — runs before paint, prevents FOUC */}
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: themeInitScript }}
+        />
+
         {/* Skip-to-main-content — first focusable element, WCAG 2.4.1 */}
         <a href="#main-content" className="skip-link">
           Skip to main content

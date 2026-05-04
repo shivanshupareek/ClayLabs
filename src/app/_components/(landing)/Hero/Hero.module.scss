@@ -1,0 +1,244 @@
+@use "../../../../styles/variables" as *;
+@use "../../../../styles/mixins" as *;
+
+// =============================================================================
+// HERO
+// =============================================================================
+
+.hero {
+  width: 100%;
+  padding-top: $space-8;
+
+  @include respond-to("md") {
+    padding-top: $space-10;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Text row — column on mobile, row on md+ (title left, subtext bottom-right)
+// -----------------------------------------------------------------------------
+
+.textRow {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  margin-bottom: $space-4;
+
+  @include respond-to("md") {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: $space-6;
+    margin-bottom: $space-5;
+  }
+
+  @include respond-to("lg") {
+    gap: $space-8;
+  }
+}
+
+.title {
+  font-family: $font-body;
+  font-size: $font-size-2xl; // 32px — mobile
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  letter-spacing: -0.04em;
+  color: var(--color-text-primary);
+
+  @include respond-to("md") {
+    flex: 1;
+    font-size: $font-size-3xl; // 40px — tablet
+  }
+
+  @include respond-to("lg") {
+    font-size: $font-size-4xl; // 48px — desktop
+  }
+}
+
+.subtext {
+  font-family: $font-body;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-snug;
+  letter-spacing: $tracking-tight;
+  color: var(--color-text-primary);
+  max-width: 400px;
+
+  @include respond-to("md") {
+    flex-shrink: 0;
+    max-width: 260px;
+    text-align: right;
+    margin-top: $space-8;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Image section — positions image and form overlay together
+// -----------------------------------------------------------------------------
+
+.imageSection {
+  position: relative;
+  max-width: $max-content-width;
+  margin-inline: auto;
+}
+
+.imageWrapper {
+  position: relative;
+  margin-inline: $space-3;
+  height: 220px;
+  overflow: hidden;
+  border-radius: $radius-sm;
+
+  @include respond-to("sm") {
+    margin-inline: $space-4;
+    height: 280px;
+  }
+
+  @include respond-to("md") {
+    margin-inline: $space-8;
+    height: 380px;
+  }
+
+  @include respond-to("lg") {
+    height: 400px;
+  }
+
+  @include respond-to("xl") {
+    height: 420px;
+  }
+}
+
+.image {
+  object-fit: cover;
+  object-position: center;
+}
+
+// -----------------------------------------------------------------------------
+// Form row — constrained to 1440px, right-aligned, below image
+// -----------------------------------------------------------------------------
+
+.formRow {
+  @include container;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: $space-2;
+  margin-bottom: $space-6;
+}
+
+// -----------------------------------------------------------------------------
+// Email form — EmailForm.tsx renders these classes
+// -----------------------------------------------------------------------------
+
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $space-1;
+  width: 100%;
+
+  @include respond-to("md") {
+    width: auto;
+  }
+}
+
+// Dark fill: input + button side by side
+.pill {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-text-primary);
+  border-radius: $radius-sm;
+  padding: $space-1;
+  width: 100%;
+  gap: 0;
+
+  @include respond-to("md") {
+    width: auto;
+    min-width: 320px;
+  }
+
+  &:focus-within {
+    outline: 2px solid var(--color-text-primary);
+    outline-offset: 3px;
+  }
+}
+
+.visuallyHidden {
+  @include visually-hidden;
+}
+
+.emailInput {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-bg);
+  font-family: $font-body;
+  font-size: $font-size-sm;
+  line-height: 1;
+  padding-left: 4px;
+  margin-right: $space-2;
+
+  &::placeholder {
+    color: var(--color-bg);
+    opacity: 0.5;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.submitBtn {
+  @include button-reset;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px $space-2;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: $font-body;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  border-radius: $radius-sm;
+  white-space: nowrap;
+  transition: opacity $transition-fast;
+  flex-shrink: 0;
+
+  &:hover:not(:disabled) {
+    opacity: 0.85;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Success / error states
+// -----------------------------------------------------------------------------
+
+.successText {
+  font-family: $font-body;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: var(--color-text-primary);
+  padding-block: $space-1;
+}
+
+.errorText {
+  font-family: $font-body;
+  font-size: $font-size-xs;
+  color: var(--color-text-secondary);
+  text-align: right;
+}

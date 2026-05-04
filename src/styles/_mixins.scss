@@ -29,7 +29,6 @@
 // Layout helpers
 // -----------------------------------------------------------------------------
 
-// Max-width content container — respects the 1144px hard constraint
 @mixin container {
   width: 100%;
   max-width: $max-content-width;
@@ -42,6 +41,10 @@
 
   @include respond-to('lg') {
     padding-inline: $space-6;
+  }
+
+  @include respond-to('xl') {
+    padding-inline: $space-8;
   }
 }
 
