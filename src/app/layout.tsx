@@ -156,11 +156,17 @@ const jsonLd = {
     itemListElement: [
       {
         "@type": "Offer",
+        price: "300",
+        priceCurrency: "AUD",
+        availability: "https://schema.org/InStock",
+        url: "https://claylabs.com.au/#book",
         itemOffered: {
           "@type": "Course",
-          name: "Pottery Classes",
+          name: "6-Week Pottery Programme",
           description:
-            "Small-group pottery classes covering wheel throwing and handbuilding for all skill levels.",
+            "Small-group pottery classes covering wheel throwing and handbuilding for all skill levels. Two hours per week over six weeks.",
+          numberOfCredits: 6,
+          courseWorkload: "PT2H",
         },
       },
     ],
