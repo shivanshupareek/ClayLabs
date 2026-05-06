@@ -89,6 +89,12 @@
 
 .track {
   overflow: hidden;
+  touch-action: pan-y;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
 }
 
 // -----------------------------------------------------------------------------

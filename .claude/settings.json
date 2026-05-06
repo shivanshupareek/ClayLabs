@@ -9,7 +9,9 @@
       "Bash(git commit *)",
       "Bash(git checkout *)",
       "Bash(git -C /Users/shivanshupareek/Desktop/Shivanshu/Business/Qera/Clients/claylabs log --oneline -8)",
-      "Bash(git -C /Users/shivanshupareek/Desktop/Shivanshu/Business/Qera/Clients/claylabs add 'src/app/_components/\\(landing\\)/Hero/Hero.module.scss' 'src/app/_components/\\(landing\\)/SessionsSection/SessionsSection.module.scss' 'src/app/_components/\\(landing\\)/SessionsSection/SessionsCarousel.tsx' 'src/app/_components/\\(landing\\)/BookingSection/BookingSection.tsx' 'src/app/_components/\\(landing\\)/BookingSection/BookingSection.module.scss' 'src/app/_components/\\(landing\\)/BookingSection/__tests__/BookingSection.test.tsx' 'src/app/_components/\\(root\\)/Footer/Footer.module.scss')"
+      "Bash(git -C /Users/shivanshupareek/Desktop/Shivanshu/Business/Qera/Clients/claylabs add 'src/app/_components/\\(landing\\)/Hero/Hero.module.scss' 'src/app/_components/\\(landing\\)/SessionsSection/SessionsSection.module.scss' 'src/app/_components/\\(landing\\)/SessionsSection/SessionsCarousel.tsx' 'src/app/_components/\\(landing\\)/BookingSection/BookingSection.tsx' 'src/app/_components/\\(landing\\)/BookingSection/BookingSection.module.scss' 'src/app/_components/\\(landing\\)/BookingSection/__tests__/BookingSection.test.tsx' 'src/app/_components/\\(root\\)/Footer/Footer.module.scss')",
+      "Bash(file public/assets/og/*)",
+      "Bash(gh pr create --title 'feat: ClayLabs landing page — full initial build' --body ' *)"
     ]
   }
 }
