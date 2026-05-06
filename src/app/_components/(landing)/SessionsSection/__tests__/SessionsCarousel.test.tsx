@@ -6,24 +6,16 @@ import SessionsCarousel from "../SessionsCarousel";
 // Framer Motion — render children without animation overhead
 // ---------------------------------------------------------------------------
 jest.mock("framer-motion", () => ({
-  AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
   motion: {
     div: ({
       children,
-      // Strip animation props so they don't land on a real DOM element
-      variants: _v,
-      initial: _i,
       animate: _a,
-      exit: _e,
-      custom: _c,
+      transition: _t,
       ...rest
     }: React.HTMLAttributes<HTMLDivElement> & {
       children?: React.ReactNode;
-      variants?: unknown;
-      initial?: unknown;
       animate?: unknown;
-      exit?: unknown;
-      custom?: unknown;
+      transition?: unknown;
     }) => <div {...rest}>{children}</div>,
   },
 }));
@@ -76,26 +68,27 @@ describe("SessionsCarousel", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders 3 cards on initial load (desktop)", () => {
+  it("renders 3 accessible card images on initial load (desktop)", () => {
     render(<SessionsCarousel />);
+    // Only the active group's images are accessible — inactive groups have aria-hidden
     const images = screen.getAllByRole("img");
     expect(images).toHaveLength(3);
   });
 
-  it("each card image has a non-empty alt text", () => {
+  it("each active card image has a non-empty alt text", () => {
     render(<SessionsCarousel />);
-    const images = screen.getAllByRole("img");
-    images.forEach((img) => {
+    screen.getAllByRole("img").forEach((img) => {
       expect(img).toHaveAttribute("alt");
       expect(img.getAttribute("alt")).not.toBe("");
     });
   });
 
-  it("renders card titles and subtext for the first group", () => {
+  it("renders card titles for the first group as accessible headings", () => {
     render(<SessionsCarousel />);
-    expect(screen.getByText("6-weeks journey")).toBeInTheDocument();
-    expect(screen.getByText("Made by you, kept by you")).toBeInTheDocument();
-    expect(screen.getByText("Time that's truly yours")).toBeInTheDocument();
+    // getByRole filters out aria-hidden — only active group headings are found
+    expect(screen.getByRole("heading", { level: 3, name: /6-weeks journey/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 3, name: /made by you, kept by you/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 3, name: /time that's truly yours/i })).toBeInTheDocument();
   });
 
   // --- Controls ---
@@ -114,9 +107,10 @@ describe("SessionsCarousel", () => {
 
     await user.click(screen.getByRole("button", { name: /next group/i }));
 
-    expect(screen.getByText("Ready for you")).toBeInTheDocument();
-    expect(screen.getByText("Guidance when needed")).toBeInTheDocument();
-    expect(screen.getByText("Unhurried learning")).toBeInTheDocument();
+    // Active group changed — group 2 headings are now accessible
+    expect(screen.getByRole("heading", { level: 3, name: /ready for you/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 3, name: /guidance when needed/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 3, name: /unhurried learning/i })).toBeInTheDocument();
   });
 
   it("wraps to the last group when Previous group is clicked from group 0", async () => {
@@ -126,7 +120,7 @@ describe("SessionsCarousel", () => {
     await user.click(screen.getByRole("button", { name: /previous group/i }));
 
     // With 6 cards and 3 per view: last group = group 1 (cards 4-6)
-    expect(screen.getByText("Ready for you")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 3, name: /ready for you/i })).toBeInTheDocument();
   });
 
   it("returns to group 0 after clicking Next from the last group", async () => {
@@ -136,7 +130,7 @@ describe("SessionsCarousel", () => {
     await user.click(screen.getByRole("button", { name: /next group/i })); // → group 1
     await user.click(screen.getByRole("button", { name: /next group/i })); // → group 0 (wraps)
 
-    expect(screen.getByText("6-weeks journey")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 3, name: /6-weeks journey/i })).toBeInTheDocument();
   });
 
   // --- Accessibility ---

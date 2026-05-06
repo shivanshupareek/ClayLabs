@@ -18,7 +18,7 @@ export default function Hero() {
       <div className={styles.imageSection}>
         <div className={styles.imageWrapper}>
           <Image
-            src="/assets/landing/heroImg.png"
+            src="/assets/landing/heroImgNew.png"
             alt="Handcrafted pottery and ceramics arranged on stone slabs"
             fill
             priority

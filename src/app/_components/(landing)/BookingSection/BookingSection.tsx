@@ -77,7 +77,7 @@ export default function BookingSection() {
   const isSuccess = status === "success";
 
   return (
-    <section className={styles.section} aria-labelledby="booking-heading">
+    <section id="book" className={styles.section} aria-labelledby="booking-heading">
       <div className={styles.container}>
         <h2 id="booking-heading" className={styles.heading}>
           Book your session

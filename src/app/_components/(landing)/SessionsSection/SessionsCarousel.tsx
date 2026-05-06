@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import styles from "./SessionsSection.module.scss";
@@ -47,20 +47,6 @@ const CARDS = [
 
 const EASE: [number, number, number, number] = [0.56, 0, 0.44, 1];
 
-const variants = {
-  enter: (dir: number) => ({
-    x: dir > 0 ? "100%" : "-100%",
-  }),
-  center: {
-    x: 0,
-    transition: { duration: 1.6, ease: EASE },
-  },
-  exit: (dir: number) => ({
-    x: dir > 0 ? "-100%" : "100%",
-    transition: { duration: 1.6, ease: EASE },
-  }),
-};
-
 function getItemsPerView(): number {
   if (typeof window === "undefined") return 3;
   if (window.matchMedia("(min-width: 1024px)").matches) return 3;
@@ -70,7 +56,6 @@ function getItemsPerView(): number {
 
 export default function SessionsCarousel() {
   const [currentGroup, setCurrentGroup] = useState(0);
-  const [direction, setDirection] = useState<1 | -1>(1);
   const [itemsPerView, setItemsPerView] = useState(3);
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -91,26 +76,39 @@ export default function SessionsCarousel() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
+  // Pause when tab is not visible — prevents queued transitions on focus return
+  useEffect(() => {
+    function handleVisibility() {
+      setIsPaused(document.hidden);
+    }
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, []);
+
   // Auto-advance — resets on every navigation or when paused state changes
   useEffect(() => {
     if (isPaused) return;
     intervalRef.current = setInterval(() => {
-      setDirection(1);
       setCurrentGroup((g) => (g + 1) % totalGroups);
     }, 4000);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-// eslint-disable-next-line react-hooks/exhaustive-deps
-}, [currentGroup, totalGroups, isPaused]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentGroup, totalGroups, isPaused]);
 
   function navigate(dir: 1 | -1) {
-    setDirection(dir);
     setCurrentGroup((g) => (g + dir + totalGroups) % totalGroups);
   }
 
-  const startIndex = currentGroup * itemsPerView;
-  const visibleCards = CARDS.slice(startIndex, startIndex + itemsPerView);
+  const allGroups = Array.from({ length: totalGroups }, (_, i) =>
+    CARDS.slice(i * itemsPerView, (i + 1) * itemsPerView)
+  );
+
+  // Strip slides as a single unit: x is a % of strip width.
+  // strip width = totalGroups * track width, so each group = 1/totalGroups of strip.
+  // translateX(-(currentGroup/totalGroups)*100%) positions the correct group.
+  const stripX = -(currentGroup / totalGroups) * 100;
 
   return (
     <div
@@ -122,52 +120,55 @@ export default function SessionsCarousel() {
         <h2 id="sessions-heading" className={styles.heading}>
           Our pottery sessions
         </h2>
-      </div>
-      <div className={styles.controls}>
-        <button
-          className={styles.arrowBtn}
-          onClick={() => navigate(-1)}
-          aria-label="Previous group"
-        >
-          <ChevronLeft size={16} aria-hidden="true" focusable="false" />
-        </button>
-        <button
-          className={styles.arrowBtn}
-          onClick={() => navigate(1)}
-          aria-label="Next group"
-        >
-          <ChevronRight size={16} aria-hidden="true" focusable="false" />
-        </button>
+        <div className={styles.controls}>
+          <button
+            className={styles.arrowBtn}
+            onClick={() => navigate(-1)}
+            aria-label="Previous group"
+          >
+            <ChevronLeft size={16} aria-hidden="true" focusable="false" />
+          </button>
+          <button
+            className={styles.arrowBtn}
+            onClick={() => navigate(1)}
+            aria-label="Next group"
+          >
+            <ChevronRight size={16} aria-hidden="true" focusable="false" />
+          </button>
+        </div>
       </div>
 
       <div className={styles.track}>
-        <AnimatePresence mode="popLayout" custom={direction} initial={false}>
-          <motion.div
-            key={currentGroup}
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            className={styles.group}
-          >
-            {visibleCards.map((card) => (
-              <div key={card.src} className={styles.card}>
-                <div className={styles.imageWrapper}>
-                  <Image
-                    src={card.src}
-                    alt={card.alt}
-                    fill
-                    sizes="(min-width: 1024px) calc((100vw - 160px) / 3), (min-width: 480px) calc((100vw - 80px) / 2), calc(100vw - 48px)"
-                    className={styles.cardImage}
-                  />
+        <motion.div
+          className={styles.strip}
+          style={{ "--total-groups": totalGroups } as React.CSSProperties}
+          animate={{ x: `${stripX}%` }}
+          transition={{ duration: 1.6, ease: EASE }}
+        >
+          {allGroups.map((cards, groupIndex) => (
+            <div
+              key={groupIndex}
+              className={styles.group}
+              aria-hidden={groupIndex !== currentGroup ? true : undefined}
+            >
+              {cards.map((card) => (
+                <div key={card.src} className={styles.card}>
+                  <div className={styles.imageWrapper}>
+                    <Image
+                      src={card.src}
+                      alt={card.alt}
+                      fill
+                      sizes="(min-width: 1024px) calc((100vw - 160px) / 3), (min-width: 480px) calc((100vw - 80px) / 2), calc(100vw - 48px)"
+                      className={styles.cardImage}
+                    />
+                  </div>
+                  <h3 className={styles.cardTitle}>{card.title}</h3>
+                  <p className={styles.cardText}>{card.text}</p>
                 </div>
-                <h3 className={styles.cardTitle}>{card.title}</h3>
-                <p className={styles.cardText}>{card.text}</p>
-              </div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
+              ))}
+            </div>
+          ))}
+        </motion.div>
       </div>
     </div>
   );

@@ -10,17 +10,13 @@
   padding-block: $space-10;
 
   @include respond-to("lg") {
-    padding-block: $space-12;
+    padding-block: $space-8;
   }
 }
 
 // -----------------------------------------------------------------------------
 // Carousel wrapper
 // -----------------------------------------------------------------------------
-
-// .carouselWrapper {
-//   // Intentionally no extra layout here — children handle their own spacing
-// }
 
 // Header row: heading (left) + controls (right)
 .carouselHeader {
@@ -60,9 +56,6 @@
   display: flex;
   gap: $space-1;
   flex-shrink: 0;
-  padding-bottom: $space-2;
-  padding-right: 5.25rem;
-  justify-content: flex-end;
 }
 
 .arrowBtn {
@@ -90,25 +83,36 @@
 }
 
 // -----------------------------------------------------------------------------
-// Track — clips slide animation overflow
+// Track — clips the sliding strip
 // -----------------------------------------------------------------------------
 
 .track {
-  position: relative;
   overflow: hidden;
 }
 
 // -----------------------------------------------------------------------------
-// Card group — flex row of visible cards
+// Strip — horizontal flex row of all groups; slides as a single unit
+// Width = totalGroups × 100% of track; set via --total-groups CSS variable.
+// -----------------------------------------------------------------------------
+
+.strip {
+  display: flex;
+  width: calc(var(--total-groups) * 100%);
+  will-change: transform;
+}
+
+// -----------------------------------------------------------------------------
+// Card group — one "page" of the carousel, always 100% of track width
 // -----------------------------------------------------------------------------
 
 .group {
+  flex: 0 0 calc(100% / var(--total-groups));
   display: flex;
-  justify-content: space-evenly;
-  gap: $space-2;
+  justify-content: center;
+  gap: $space-3;
 
   @include respond-to("lg") {
-    gap: $space-3;
+    gap: $space-5;
   }
 }
 
@@ -119,7 +123,7 @@
 .card {
   flex: 1;
   min-width: 0;
-  max-width: 309px; // prevents flex item from overflowing its container
+  max-width: 309px;
 }
 
 .imageWrapper {
@@ -137,7 +141,6 @@
 }
 
 .cardTitle {
-  // Overrides the global heading font-family — card titles use Inter for legibility at small size
   font-family: $font-body;
   font-size: $font-size-base;
   font-weight: $font-weight-semibold;
