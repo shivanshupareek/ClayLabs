@@ -1,0 +1,14 @@
+@use "../../../../styles/variables" as *;
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  max-height: 480px;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  object-position: center;
+}

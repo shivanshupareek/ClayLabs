@@ -3,45 +3,8 @@
 
 // =============================================================================
 // FOOTER
-// Banner image + three-row footer content. Inherits page background.
+// Three-row footer content. Inherits page background.
 // =============================================================================
-
-// .footer {
-//   // No explicit background — inherits var(--color-bg) from body (theme-safe)
-// }
-
-// -----------------------------------------------------------------------------
-// Banner image — same sizing and style as Hero image
-// -----------------------------------------------------------------------------
-
-// Mirrors Hero's .imageSection: constrains to max content width
-.bannerSection {
-  max-width: $max-content-width;
-  margin-inline: auto;
-}
-
-.bannerWrapper {
-  position: relative;
-  margin-inline: $space-3;
-  // aspect-ratio matches the image's natural 16:9 proportions — minimal cropping at all breakpoints
-  aspect-ratio: 16 / 9;
-  max-height: 520px;
-  overflow: hidden;
-  border-radius: $radius-sm;
-
-  @include respond-to("sm") {
-    margin-inline: $space-4;
-  }
-
-  @include respond-to("md") {
-    margin-inline: $space-8;
-  }
-}
-
-.bannerImage {
-  object-fit: cover;
-  object-position: center;
-}
 
 // -----------------------------------------------------------------------------
 // Footer content — 3 rows stacked
