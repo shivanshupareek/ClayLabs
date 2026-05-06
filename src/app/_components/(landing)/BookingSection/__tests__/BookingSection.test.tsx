@@ -77,6 +77,11 @@ describe("BookingSection", () => {
     expect(screen.getByRole("button", { name: /join now!/i })).toBeInTheDocument();
   });
 
+  it("renders the pricing line", () => {
+    render(<BookingSection />);
+    expect(screen.getByText(/AUD \$300 per person/i)).toBeInTheDocument();
+  });
+
   // ---------------------------------------------------------------------------
   // Validation
   // ---------------------------------------------------------------------------

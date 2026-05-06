@@ -43,6 +43,7 @@ const PermissionsPolicy = [
   "accelerometer=()",
   "gyroscope=()",
   "magnetometer=()",
+  "ambient-light-sensor=()",
   // Media / display
   "autoplay=()",
   "fullscreen=(self)",

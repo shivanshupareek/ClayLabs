@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Hero from "./_components/(landing)/Hero/Hero";
 import SessionsSection from "./_components/(landing)/SessionsSection/SessionsSection";
 import BookingSection from "./_components/(landing)/BookingSection/BookingSection";
+import VisualBreak from "./_components/(landing)/VisualBreak/VisualBreak";
 import Footer from "./_components/(root)/Footer/Footer";
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function Home() {
         <SessionsSection />
         <BookingSection />
       </main>
+      <VisualBreak />
       <Footer />
     </>
   );

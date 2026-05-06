@@ -267,6 +267,7 @@ export default function BookingSection() {
                 )}
               </button>
             )}
+            <p className={styles.pricing}>AUD $300 per person — the complete 6-week journey</p>
           </div>
         </form>
       </div>

@@ -271,6 +271,13 @@
   padding-right: $space-1;
 }
 
+.pricing {
+  font-family: $font-body;
+  font-size: $font-size-xs;
+  color: var(--color-text-secondary);
+  margin-top: $space-1;
+}
+
 .successText {
   font-family: $font-body;
   font-size: $font-size-base;

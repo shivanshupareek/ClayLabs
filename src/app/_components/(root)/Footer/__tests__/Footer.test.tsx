@@ -17,13 +17,6 @@ describe("Footer", () => {
     consoleSpy.mockRestore();
   });
 
-  it("renders the banner image with descriptive alt text", () => {
-    render(<Footer />);
-    const img = screen.getByRole("img");
-    expect(img).toBeInTheDocument();
-    expect(img.getAttribute("alt")).not.toBe("");
-  });
-
   it("renders the ClayLabs logo link", () => {
     render(<Footer />);
     const logo = screen.getByRole("link", { name: /claylabs — go to homepage/i });
@@ -74,11 +67,6 @@ describe("Footer", () => {
   it("renders the copyright notice", () => {
     render(<Footer />);
     expect(screen.getByText(/©claylabs\. all rights reserved/i)).toBeInTheDocument();
-  });
-
-  it("hides the banner image when hideBanner is true", () => {
-    render(<Footer hideBanner />);
-    expect(screen.queryByRole("img")).not.toBeInTheDocument();
   });
 
   // ---------------------------------------------------------------------------

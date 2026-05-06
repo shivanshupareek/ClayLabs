@@ -1,0 +1,3 @@
+Contact: mailto:hello@claylabs.com.au
+Preferred-Languages: en
+Canonical: https://claylabs.com.au/.well-known/security.txt

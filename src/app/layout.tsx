@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "../styles/globals.scss";
 
 // =============================================================================
@@ -79,11 +81,11 @@ export const metadata: Metadata = {
       "Join ClayLabs for intimate pottery classes in small groups. A peaceful, welcoming community-based studio in Australia for all skill levels.",
     images: [
       {
-        url: "/assets/og/og-default.jpg",
+        url: "/assets/og/OG_image.png",
         width: 1200,
         height: 630,
         alt: "ClayLabs — Pottery Classes in Australia",
-        type: "image/jpeg",
+        type: "image/png",
       },
     ],
   },
@@ -93,7 +95,7 @@ export const metadata: Metadata = {
     title: "ClayLabs — Pottery Classes in Australia",
     description:
       "Join ClayLabs for intimate pottery classes in small groups. A peaceful, welcoming community-based studio in Australia for all skill levels.",
-    images: ["/assets/og/og-default.jpg"],
+    images: ["/assets/og/OG_image.png"],
   },
 
   alternates: {
@@ -138,7 +140,7 @@ const jsonLd = {
   description:
     "Intimate pottery classes in small groups. A peaceful, community-based pottery studio in Australia for all skill levels.",
   url: "https://claylabs.com.au",
-  logo: "https://claylabs.com.au/assets/og/og-default.jpg",
+  logo: "https://claylabs.com.au/assets/og/OG_image.png",
   sameAs: [],
   address: {
     "@type": "PostalAddress",
@@ -154,11 +156,17 @@ const jsonLd = {
     itemListElement: [
       {
         "@type": "Offer",
+        price: "300",
+        priceCurrency: "AUD",
+        availability: "https://schema.org/InStock",
+        url: "https://claylabs.com.au/#book",
         itemOffered: {
           "@type": "Course",
-          name: "Pottery Classes",
+          name: "6-Week Pottery Programme",
           description:
-            "Small-group pottery classes covering wheel throwing and handbuilding for all skill levels.",
+            "Small-group pottery classes covering wheel throwing and handbuilding for all skill levels. Two hours per week over six weeks.",
+          numberOfCredits: 6,
+          courseWorkload: "PT2H",
         },
       },
     ],
@@ -194,6 +202,7 @@ export default function RootLayout({
     <html
       lang="en-AU"
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
       className={`${inter.variable} ${poxe.variable}`}
     >
       <body>
@@ -222,6 +231,9 @@ export default function RootLayout({
             __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
           }}
         />
+
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
