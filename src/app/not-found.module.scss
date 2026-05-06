@@ -1,0 +1,108 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+// =============================================================================
+// 404 NOT FOUND PAGE
+// =============================================================================
+
+.main {
+  @include container;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: $space-10;
+  min-height: calc(100dvh - 52px - 220px); // viewport minus navbar (52px mobile) and footer content
+
+  @include respond-to("md") {
+    min-height: calc(100dvh - 64px - 220px); // navbar grows to 64px on md+
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Content — centered column
+// -----------------------------------------------------------------------------
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: $space-2;
+}
+
+// -----------------------------------------------------------------------------
+// 404 display number
+// -----------------------------------------------------------------------------
+
+.code {
+  font-family: $font-body;
+  font-size: clamp(5rem, 18vw, 12rem);
+  font-weight: $font-weight-semibold;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-text-primary);
+  margin: 0;
+  // Subtle muted treatment — slightly less than full opacity so it reads as
+  // a decorative label rather than competing with the h1
+  opacity: 0.15;
+}
+
+// -----------------------------------------------------------------------------
+// Heading
+// -----------------------------------------------------------------------------
+
+.heading {
+  font-family: $font-body;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-snug;
+  letter-spacing: $tracking-tight;
+  color: var(--color-text-primary);
+  margin: 0;
+
+  @include respond-to("md") {
+    font-size: $font-size-2xl;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Subtext with countdown
+// -----------------------------------------------------------------------------
+
+.subtext {
+  font-family: $font-body;
+  font-size: $font-size-base;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-normal;
+  color: var(--color-text-secondary);
+  margin: 0;
+  margin-top: $space-1;
+}
+
+// -----------------------------------------------------------------------------
+// Home CTA — matches Navbar / Footer filled pill exactly
+// -----------------------------------------------------------------------------
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px $space-3;
+  background-color: var(--color-text-primary);
+  color: var(--color-bg);
+  font-family: $font-body;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  border-radius: $radius-md;
+  text-decoration: none;
+  white-space: nowrap;
+  margin-top: $space-2;
+  transition: opacity $transition-fast;
+
+  &:hover {
+    opacity: 0.78;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
