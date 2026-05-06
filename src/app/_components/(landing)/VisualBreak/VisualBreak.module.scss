@@ -1,11 +1,36 @@
 @use "../../../../styles/variables" as *;
+@use "../../../../styles/mixins" as *;
+
+.section {
+  max-width: $max-content-width;
+  margin-inline: auto;
+}
 
 .wrapper {
   position: relative;
-  width: 100%;
-  aspect-ratio: 21 / 9;
-  max-height: 480px;
+  margin-inline: $space-3;
+  height: 220px;
   overflow: hidden;
+  border-radius: $radius-sm;
+
+  @include respond-to("sm") {
+    height: 280px;
+  }
+
+  @include respond-to("md") {
+    margin-inline: $space-4;
+    height: 380px;
+  }
+
+  @include respond-to("lg") {
+    margin-inline: $space-6;
+    height: 400px;
+  }
+
+  @include respond-to("xl") {
+    margin-inline: $space-8;
+    height: 420px;
+  }
 }
 
 .image {
