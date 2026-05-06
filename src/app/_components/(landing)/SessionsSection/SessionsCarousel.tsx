@@ -59,6 +59,7 @@ export default function SessionsCarousel() {
   const [itemsPerView, setItemsPerView] = useState(3);
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const dragStartX = useRef<number | null>(null);
 
   const totalGroups = Math.ceil(CARDS.length / itemsPerView);
 
@@ -101,6 +102,17 @@ export default function SessionsCarousel() {
     setCurrentGroup((g) => (g + dir + totalGroups) % totalGroups);
   }
 
+  function handlePointerDown(e: React.PointerEvent) {
+    dragStartX.current = e.clientX;
+  }
+
+  function handlePointerUp(e: React.PointerEvent) {
+    if (dragStartX.current === null) return;
+    const delta = e.clientX - dragStartX.current;
+    if (Math.abs(delta) > 50) navigate(delta < 0 ? 1 : -1);
+    dragStartX.current = null;
+  }
+
   const allGroups = Array.from({ length: totalGroups }, (_, i) =>
     CARDS.slice(i * itemsPerView, (i + 1) * itemsPerView)
   );
@@ -138,7 +150,12 @@ export default function SessionsCarousel() {
         </div>
       </div>
 
-      <div className={styles.track}>
+      <div
+        className={styles.track}
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={() => { dragStartX.current = null; }}
+      >
         <motion.div
           className={styles.strip}
           style={{ "--total-groups": totalGroups } as React.CSSProperties}
