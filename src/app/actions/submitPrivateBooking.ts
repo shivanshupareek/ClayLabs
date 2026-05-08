@@ -16,7 +16,7 @@ const schema = z.object({
       "Enter a valid Australian phone number"
     ),
   numberOfPeople: z
-    .number({ invalid_type_error: "Number of people is required" })
+    .number({ error: "Number of people is required" })
     .min(1, "At least 1 person required")
     .max(9, "Maximum 9 people per private session"),
   date: z.string().min(1, "Please select a date"),
