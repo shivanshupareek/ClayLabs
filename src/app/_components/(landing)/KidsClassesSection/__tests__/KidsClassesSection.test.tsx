@@ -36,11 +36,11 @@ it("renders all 4 bullet points", () => {
   ).toBeInTheDocument();
 });
 
-it("CTA link has text 'book classes' and href='#book'", () => {
+it("CTA link has text 'book classes' and deep-links to the kids booking tab", () => {
   render(<KidsClassesSection />);
   const link = screen.getByRole("link", { name: /book classes/i });
   expect(link).toBeInTheDocument();
-  expect(link).toHaveAttribute("href", "#book");
+  expect(link).toHaveAttribute("href", "/?tab=kids#book");
 });
 
 it("CTA is keyboard-reachable", () => {
