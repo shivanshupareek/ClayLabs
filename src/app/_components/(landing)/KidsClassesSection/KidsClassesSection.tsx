@@ -1,6 +1,5 @@
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import BookingCtaLink from "../BookingCtaLink/BookingCtaLink";
 import styles from "./KidsClassesSection.module.scss";
 
 const BULLETS = [
@@ -58,12 +57,13 @@ export default function KidsClassesSection() {
               <li key={b}>{b}</li>
             ))}
           </ul>
-          <Link href="/?tab=kids#book" scroll={false} className={styles.cta}>
-            <span className={styles.ctaLabel}>book classes</span>
-            <span className={styles.ctaArrow} aria-hidden="true">
-              <ArrowRight size={14} focusable={false} />
-            </span>
-          </Link>
+          <BookingCtaLink
+            tab="kids"
+            label="book classes"
+            className={styles.cta}
+            labelClassName={styles.ctaLabel}
+            arrowClassName={styles.ctaArrow}
+          />
         </div>
       </div>
     </section>

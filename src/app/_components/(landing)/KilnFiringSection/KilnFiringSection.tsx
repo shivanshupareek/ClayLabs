@@ -1,6 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import BookingCtaLink from "../BookingCtaLink/BookingCtaLink";
 import styles from "./KilnFiringSection.module.scss";
 
 const FIRING_OPTIONS = ["Bisque firing (cone 06)", "Glaze firing (cone 6)"];
@@ -47,12 +46,13 @@ export default function KilnFiringSection() {
             </p>
           </div>
 
-          <Link href="/?tab=kiln#book" scroll={false} className={styles.cta}>
-            <span className={styles.ctaLabel}>book kiln firing</span>
-            <span className={styles.ctaArrow} aria-hidden="true">
-              <ArrowRight size={14} focusable={false} />
-            </span>
-          </Link>
+          <BookingCtaLink
+            tab="kiln"
+            label="book kiln firing"
+            className={styles.cta}
+            labelClassName={styles.ctaLabel}
+            arrowClassName={styles.ctaArrow}
+          />
         </div>
       </div>
     </section>

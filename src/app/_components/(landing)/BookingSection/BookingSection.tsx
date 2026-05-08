@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
+import { getLenis } from "../../(root)/SmoothScroll/SmoothScroll";
 import PotteryForm from "./forms/PotteryForm";
 import PrivateForm from "./forms/PrivateForm";
 import KidsForm from "./forms/KidsForm";
@@ -35,12 +36,19 @@ export default function BookingSection() {
   }, [tabParam]);
 
   // Scroll #book into view when arriving via a CTA deep-link (e.g. /?tab=kiln#book).
-  // Uses window.scrollTo so Lenis intercepts and animates the scroll.
+  // Uses lenis.scrollTo so the Lenis smooth-scroll engine handles the animation.
+  // Falls back to native scrollIntoView when Lenis is absent (reduced-motion path).
   useEffect(() => {
     if (!tabParam) return;
     const timer = setTimeout(() => {
       const el = document.getElementById("book");
-      if (el) window.scrollTo({ top: el.offsetTop, behavior: "smooth" });
+      if (!el) return;
+      const lenis = getLenis();
+      if (lenis) {
+        lenis.scrollTo(el);
+      } else {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }, 120);
     return () => clearTimeout(timer);
   }, [tabParam]);
