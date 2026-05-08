@@ -200,13 +200,13 @@
   @include button-reset;
   display: inline-flex;
   align-items: center;
-  padding: 7px $space-2;
+  padding: 12px $space-2;
   background-color: var(--color-bg);
   color: var(--color-text-primary);
   font-family: $font-body;
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
-  border-radius: $radius-sm;
+  border-radius: 6px;
   white-space: nowrap;
   transition: opacity $transition-fast;
   flex-shrink: 0;

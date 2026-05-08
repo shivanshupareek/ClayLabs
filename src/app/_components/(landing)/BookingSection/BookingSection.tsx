@@ -1,88 +1,62 @@
 "use client";
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { ArrowRight } from "lucide-react";
-import { submitBooking } from "@/app/actions/submitBooking";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
+import PotteryForm from "./forms/PotteryForm";
+import PrivateForm from "./forms/PrivateForm";
+import KidsForm from "./forms/KidsForm";
+import KilnForm from "./forms/KilnForm";
 import styles from "./BookingSection.module.scss";
 
-const DAYS = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
+const TABS = [
+  { id: "pottery", label: "Pottery classes" },
+  { id: "private", label: "Private classes" },
+  { id: "kids", label: "Kids classes" },
+  { id: "kiln", label: "Kiln firing services" },
+] as const;
 
-const TIMES = ["10:00am – 12:00pm", "06:00pm – 08:00pm"];
-
-const AU_PHONE_RE = /^(\+?61|0)(4\d{8}|[2-9]\d{8})$/;
-
-const schema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z
-    .string()
-    .min(1, "Email is required")
-    .email("Enter a valid email address"),
-  phone: z
-    .string()
-    .min(1, "Phone number is required")
-    .refine(
-      (val) => AU_PHONE_RE.test(val.replace(/[\s.\-()]/g, "")),
-      "Enter a valid Australian phone number"
-    ),
-  day: z.string().min(1, "Please select a day"),
-  time: z.string().min(1, "Please select a time"),
-  comments: z.string().optional(),
-});
-
-type FormValues = z.infer<typeof schema>;
-type Status = "idle" | "loading" | "success" | "error";
+type TabId = (typeof TABS)[number]["id"];
 
 export default function BookingSection() {
-  const [status, setStatus] = useState<Status>("idle");
-  const [serverError, setServerError] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const param = searchParams.get("tab") as TabId | null;
+  const validTab: TabId =
+    param && TABS.some((t) => t.id === param) ? param : "pottery";
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormValues>({
-    resolver: zodResolver(schema),
-    mode: "onSubmit",
-    defaultValues: { day: "", time: "" },
-  });
+  const [activeTab, setActiveTab] = useState<TabId>(validTab);
 
-  const onSubmit = async (values: FormValues) => {
-    setStatus("loading");
-    setServerError(null);
+  // Sync active tab when the URL's `tab` param changes (e.g. deep-link CTA from KilnFiringSection).
+  // Watch the string value, not the searchParams object, to avoid re-running on every render.
+  const tabParam = searchParams.get("tab");
+  useEffect(() => {
+    const next: TabId =
+      tabParam && TABS.some((t) => t.id === tabParam) ? (tabParam as TabId) : "pottery";
+    setActiveTab(next);
+  }, [tabParam]);
 
-    const formData = new FormData();
-    formData.set("name", values.name);
-    formData.set("email", values.email);
-    formData.set("phone", values.phone);
-    formData.set("day", values.day);
-    formData.set("time", values.time);
-    if (values.comments) formData.set("comments", values.comments);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const indicatorRef = useRef<HTMLSpanElement>(null);
+  const firstRender = useRef(true);
 
-    const result = await submitBooking(formData);
-
-    if ("error" in result) {
-      setServerError(result.error);
-      setStatus("error");
+  useLayoutEffect(() => {
+    const idx = TABS.findIndex((t) => t.id === activeTab);
+    const el = tabRefs.current[idx];
+    const indicator = indicatorRef.current;
+    if (!el || !indicator) return;
+    if (firstRender.current) {
+      // Suppress transition on initial paint to avoid flash from 0
+      indicator.style.transition = "none";
+      indicator.style.left = `${el.offsetLeft}px`;
+      indicator.style.width = `${el.offsetWidth}px`;
+      firstRender.current = false;
+      requestAnimationFrame(() => {
+        if (indicatorRef.current) indicatorRef.current.style.transition = "";
+      });
     } else {
-      reset();
-      setStatus("success");
+      indicator.style.left = `${el.offsetLeft}px`;
+      indicator.style.width = `${el.offsetWidth}px`;
     }
-  };
-
-  const isLoading = status === "loading";
-  const isSuccess = status === "success";
+  }, [activeTab]);
 
   return (
     <section id="book" className={styles.section} aria-labelledby="booking-heading">
@@ -91,185 +65,40 @@ export default function BookingSection() {
           Book your session
         </h2>
 
-        <form
-          className={styles.form}
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-          aria-busy={isLoading}
+        <div
+          className={styles.tabStrip}
+          role="tablist"
+          aria-label="Booking type"
         >
-          {/* Row 1: Name · Email · Phone */}
-          <div className={styles.fieldsRow}>
-            <div className={styles.field}>
-              <label htmlFor="booking-name" className={styles.label}>
-                Name
-              </label>
-              <input
-                id="booking-name"
-                type="text"
-                placeholder="full name"
-                autoComplete="name"
-                className={styles.input}
-                aria-invalid={!!errors.name}
-                aria-describedby={errors.name ? "booking-name-error" : undefined}
-                disabled={isLoading}
-                {...register("name")}
-              />
-              {errors.name && (
-                <p id="booking-name-error" role="alert" className={styles.fieldError}>
-                  {errors.name.message}
-                </p>
-              )}
-            </div>
+          <span ref={indicatorRef} className={styles.tabIndicator} aria-hidden="true" />
+          {TABS.map((tab, i) => (
+            <button
+              key={tab.id}
+              ref={(el) => { tabRefs.current[i] = el; }}
+              role="tab"
+              id={`booking-tab-${tab.id}`}
+              aria-selected={activeTab === tab.id}
+              aria-controls={`booking-panel-${tab.id}`}
+              className={`${styles.tabBtn} ${activeTab === tab.id ? styles.tabBtnActive : ""}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
-            <div className={styles.field}>
-              <label htmlFor="booking-email" className={styles.label}>
-                Email
-              </label>
-              <input
-                id="booking-email"
-                type="email"
-                placeholder="example@gmail.com"
-                autoComplete="email"
-                className={styles.input}
-                aria-invalid={!!errors.email}
-                aria-describedby={errors.email ? "booking-email-error" : undefined}
-                disabled={isLoading}
-                {...register("email")}
-              />
-              {errors.email && (
-                <p id="booking-email-error" role="alert" className={styles.fieldError}>
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-
-            <div className={styles.field}>
-              <label htmlFor="booking-phone" className={styles.label}>
-                Phone number
-              </label>
-              <input
-                id="booking-phone"
-                type="tel"
-                placeholder="+61 412 345 678"
-                autoComplete="tel"
-                className={styles.input}
-                aria-invalid={!!errors.phone}
-                aria-describedby={errors.phone ? "booking-phone-error" : undefined}
-                disabled={isLoading}
-                {...register("phone")}
-              />
-              {errors.phone && (
-                <p id="booking-phone-error" role="alert" className={styles.fieldError}>
-                  {errors.phone.message}
-                </p>
-              )}
-            </div>
-          </div>
-
-          {/* Row 2: Preferred schedule · Additional comments */}
-          <div className={styles.scheduleRow}>
-            <fieldset className={styles.scheduleGroup}>
-              <legend className={styles.label}>Preferred schedule</legend>
-              <div className={styles.dropdowns}>
-                <div className={styles.selectWrapper}>
-                  <select
-                    id="booking-day"
-                    className={styles.select}
-                    disabled={isLoading}
-                    aria-label="Day of the week"
-                    aria-invalid={!!errors.day}
-                    aria-describedby={errors.day ? "booking-day-error" : undefined}
-                    {...register("day")}
-                  >
-                    <option value="" disabled>
-                      Day
-                    </option>
-                    {DAYS.map((d) => (
-                      <option key={d} value={d}>
-                        {d}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className={styles.selectWrapper}>
-                  <select
-                    id="booking-time"
-                    className={styles.select}
-                    disabled={isLoading}
-                    aria-label="Preferred time slot"
-                    aria-invalid={!!errors.time}
-                    aria-describedby={errors.time ? "booking-time-error" : undefined}
-                    {...register("time")}
-                  >
-                    <option value="" disabled>
-                      Time
-                    </option>
-                    {TIMES.map((t) => (
-                      <option key={t} value={t}>
-                        {t}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              {(errors.day || errors.time) && (
-                <p
-                  id={errors.day ? "booking-day-error" : "booking-time-error"}
-                  role="alert"
-                  className={styles.fieldError}
-                >
-                  {errors.day?.message ?? errors.time?.message}
-                </p>
-              )}
-            </fieldset>
-
-            <div className={styles.commentsGroup}>
-              <label htmlFor="booking-comments" className={styles.label}>
-                Additional comments
-              </label>
-              <input
-                id="booking-comments"
-                type="text"
-                placeholder="write your comments"
-                className={styles.input}
-                disabled={isLoading}
-                {...register("comments")}
-              />
-            </div>
-          </div>
-
-          {/* Submit row */}
-          <div className={styles.submitRow}>
-            {serverError && (
-              <p role="alert" className={styles.serverError}>
-                {serverError}
-              </p>
-            )}
-            {isSuccess ? (
-              <p role="status" aria-live="polite" className={styles.successText}>
-                see you soon!
-              </p>
-            ) : (
-              <button
-                type="submit"
-                className={styles.submitBtn}
-                disabled={isLoading}
-                aria-disabled={isLoading}
-              >
-                <span className={styles.btnLabel}>
-                  {isLoading ? "..." : "join now!"}
-                </span>
-                {!isLoading && (
-                  <span className={styles.btnArrow} aria-hidden="true">
-                    <ArrowRight size={14} focusable={false} />
-                  </span>
-                )}
-              </button>
-            )}
-            <p className={styles.pricing}>AUD $300 per person — the complete 6-week journey</p>
-          </div>
-        </form>
+        <div
+          key={activeTab}
+          role="tabpanel"
+          id={`booking-panel-${activeTab}`}
+          aria-labelledby={`booking-tab-${activeTab}`}
+          className={styles.tabPanel}
+        >
+          {activeTab === "pottery" && <PotteryForm />}
+          {activeTab === "private" && <PrivateForm />}
+          {activeTab === "kids" && <KidsForm />}
+          {activeTab === "kiln" && <KilnForm />}
+        </div>
       </div>
     </section>
   );
