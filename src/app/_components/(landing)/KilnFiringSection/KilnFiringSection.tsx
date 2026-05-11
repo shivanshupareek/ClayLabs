@@ -28,7 +28,7 @@ export default function KilnFiringSection() {
             </h2>
 
             <p className={styles.text}>
-              ClayLabs offers professional bisque and glaze firing services for
+              Clayora offers professional bisque and glaze firing services for
               your ceramic pieces. Whether you&apos;ve been working with us in
               class or throwing at home, bring your work in and we&apos;ll fire
               it to a beautiful finish.

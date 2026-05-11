@@ -1,3 +1,3 @@
-Contact: mailto:hello@claylabs.com.au
+Contact: mailto:hello@clayora.com
 Preferred-Languages: en
-Canonical: https://claylabs.com.au/.well-known/security.txt
+Canonical: https://clayora.com/.well-known/security.txt

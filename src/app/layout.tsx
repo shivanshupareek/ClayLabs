@@ -34,15 +34,15 @@ const poxe = localFont({
 // =============================================================================
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://claylabs.com.au"),
+  metadataBase: new URL("https://clayora.com"),
 
   title: {
-    default: "ClayLabs — Pottery Classes in Australia",
-    template: "%s | ClayLabs",
+    default: "Clayora — Pottery Classes in Australia",
+    template: "%s | Clayora",
   },
 
   description:
-    "Join ClayLabs for intimate pottery classes in small groups. A peaceful, welcoming community-based studio in Australia for all skill levels.",
+    "Join Clayora for intimate pottery classes in small groups. A peaceful, welcoming community-based studio in Australia for all skill levels.",
 
   keywords: [
     "pottery classes",
@@ -55,9 +55,9 @@ export const metadata: Metadata = {
     "community pottery",
   ],
 
-  authors: [{ name: "ClayLabs", url: "https://claylabs.com.au" }],
-  creator: "ClayLabs",
-  publisher: "ClayLabs",
+  authors: [{ name: "Clayora", url: "https://clayora.com" }],
+  creator: "Clayora",
+  publisher: "Clayora",
 
   robots: {
     index: true,
@@ -74,17 +74,17 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_AU",
-    url: "https://claylabs.com.au",
-    siteName: "ClayLabs",
-    title: "ClayLabs — Pottery Classes in Australia",
+    url: "https://clayora.com",
+    siteName: "Clayora",
+    title: "Clayora — Pottery Classes in Australia",
     description:
-      "Join ClayLabs for intimate pottery classes in small groups. A peaceful, welcoming community-based studio in Australia for all skill levels.",
+      "Join Clayora for intimate pottery classes in small groups. A peaceful, welcoming community-based studio in Australia for all skill levels.",
     images: [
       {
         url: "/assets/og/OG_image.png",
         width: 1200,
         height: 630,
-        alt: "ClayLabs — Pottery Classes in Australia",
+        alt: "Clayora — Pottery Classes in Australia",
         type: "image/png",
       },
     ],
@@ -92,14 +92,14 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "ClayLabs — Pottery Classes in Australia",
+    title: "Clayora — Pottery Classes in Australia",
     description:
-      "Join ClayLabs for intimate pottery classes in small groups. A peaceful, welcoming community-based studio in Australia for all skill levels.",
+      "Join Clayora for intimate pottery classes in small groups. A peaceful, welcoming community-based studio in Australia for all skill levels.",
     images: ["/assets/og/OG_image.png"],
   },
 
   alternates: {
-    canonical: "https://claylabs.com.au",
+    canonical: "https://clayora.com",
   },
 
   icons: {
@@ -136,11 +136,11 @@ export const viewport: Viewport = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": ["LocalBusiness", "EducationalOrganization"],
-  name: "ClayLabs",
+  name: "Clayora",
   description:
     "Intimate pottery classes in small groups. A peaceful, community-based pottery studio in Australia for all skill levels.",
-  url: "https://claylabs.com.au",
-  logo: "https://claylabs.com.au/assets/og/OG_image.png",
+  url: "https://clayora.com",
+  logo: "https://clayora.com/assets/og/OG_image.png",
   sameAs: [],
   address: {
     "@type": "PostalAddress",
@@ -159,7 +159,7 @@ const jsonLd = {
         price: "300",
         priceCurrency: "AUD",
         availability: "https://schema.org/InStock",
-        url: "https://claylabs.com.au/#book",
+        url: "https://clayora.com/#book",
         itemOffered: {
           "@type": "Course",
           name: "6-Week Pottery Programme",

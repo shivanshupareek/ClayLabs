@@ -40,9 +40,9 @@ export default function Navbar() {
         <Link
           href="/"
           className={styles.logo}
-          aria-label="ClayLabs — go to homepage"
+          aria-label="Clayora — go to homepage"
         >
-          ClayLabs
+          Clayora
         </Link>
 
         <div className={styles.actions}>

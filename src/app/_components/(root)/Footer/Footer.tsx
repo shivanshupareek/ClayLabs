@@ -11,10 +11,10 @@ export default function Footer() {
           <Link
             href="/"
             className={styles.logo}
-            aria-label="ClayLabs — go to homepage"
+            aria-label="Clayora — go to homepage"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           >
-            ClayLabs
+            Clayora
           </Link>
           <a href="#book" className={styles.cta}>
             get started
@@ -22,8 +22,8 @@ export default function Footer() {
         </div>
 
         <div className={styles.contactRow}>
-          <a href="mailto:hello@claylabs.com.au" className={styles.contactLink}>
-            hello@claylabs.com.au
+          <a href="mailto:hello@clayora.com" className={styles.contactLink}>
+            hello@clayora.com
           </a>
           <a href="tel:+61123456789" className={styles.contactLink}>
             +61 123 456 789
@@ -42,7 +42,7 @@ export default function Footer() {
               sitemap
             </Link>
           </nav>
-          <p className={styles.copyright}>©ClayLabs. All rights reserved</p>
+          <p className={styles.copyright}>©Clayora. All rights reserved</p>
         </div>
       </div>
     </footer>

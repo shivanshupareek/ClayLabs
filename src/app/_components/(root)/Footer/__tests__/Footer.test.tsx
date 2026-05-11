@@ -17,9 +17,9 @@ describe("Footer", () => {
     consoleSpy.mockRestore();
   });
 
-  it("renders the ClayLabs logo link", () => {
+  it("renders the Clayora logo link", () => {
     render(<Footer />);
-    const logo = screen.getByRole("link", { name: /claylabs — go to homepage/i });
+    const logo = screen.getByRole("link", { name: /clayora — go to homepage/i });
     expect(logo).toBeInTheDocument();
     expect(logo).toHaveAttribute("href", "/");
   });
@@ -31,9 +31,9 @@ describe("Footer", () => {
 
   it("renders the email contact link", () => {
     render(<Footer />);
-    const emailLink = screen.getByRole("link", { name: /hello@claylabs\.com\.au/i });
+    const emailLink = screen.getByRole("link", { name: /hello@clayora\.com/i });
     expect(emailLink).toBeInTheDocument();
-    expect(emailLink).toHaveAttribute("href", "mailto:hello@claylabs.com.au");
+    expect(emailLink).toHaveAttribute("href", "mailto:hello@clayora.com");
   });
 
   it("renders the phone contact link", () => {
@@ -66,7 +66,7 @@ describe("Footer", () => {
 
   it("renders the copyright notice", () => {
     render(<Footer />);
-    expect(screen.getByText(/©claylabs\. all rights reserved/i)).toBeInTheDocument();
+    expect(screen.getByText(/©clayora\. all rights reserved/i)).toBeInTheDocument();
   });
 
   // ---------------------------------------------------------------------------
@@ -88,7 +88,7 @@ describe("Footer", () => {
     render(<Footer />);
     await user.tab();
     expect(document.activeElement).toBe(
-      screen.getByRole("link", { name: /claylabs — go to homepage/i })
+      screen.getByRole("link", { name: /clayora — go to homepage/i })
     );
   });
 });
