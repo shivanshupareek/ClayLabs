@@ -54,14 +54,14 @@ describe("Navbar", () => {
 
   // --- Logo ---
 
-  it("renders ClayLabs logo text", () => {
+  it("renders Clayora logo text", () => {
     render(<Navbar />);
-    expect(screen.getByText("ClayLabs")).toBeInTheDocument();
+    expect(screen.getByText("Clayora")).toBeInTheDocument();
   });
 
   it("logo links to the homepage", () => {
     render(<Navbar />);
-    expect(screen.getByRole("link", { name: /claylabs/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /clayora/i })).toHaveAttribute(
       "href",
       "/"
     );
@@ -136,7 +136,7 @@ describe("Navbar", () => {
     render(<Navbar />);
     await user.tab();
     expect(document.activeElement).toBe(
-      screen.getByRole("link", { name: /claylabs/i })
+      screen.getByRole("link", { name: /clayora/i })
     );
   });
 

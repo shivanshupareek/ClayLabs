@@ -1,8 +1,8 @@
-# ClayLabs
+# Clayora
 > Intimate pottery classes in small groups. A peaceful, community-based studio in Australia for all skill levels.
 
 ## About
-ClayLabs is a pottery teaching studio in Australia. We run small-group classes in a calm, welcoming environment — no experience needed. Our 6-week programme covers wheel throwing and handbuilding, with experienced instructors guiding every step.
+Clayora is a pottery teaching studio in Australia. We run small-group classes in a calm, welcoming environment — no experience needed. Our 6-week programme covers wheel throwing and handbuilding, with experienced instructors guiding every step.
 
 ## Programme
 - Format: 6-week journey, two hours per session each week
@@ -23,8 +23,8 @@ Students work on handbuilt and wheel-thrown pieces throughout the programme. All
 Australia
 
 ## Contact
-- Website: https://claylabs.com.au
-- Email: hello@claylabs.com.au
+- Website: https://clayora.com
+- Email: hello@clayora.com
 
 ## Booking
-Book a session online at https://claylabs.com.au/#book
+Book a session online at https://clayora.com/#book
