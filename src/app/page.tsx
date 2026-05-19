@@ -28,7 +28,7 @@ export default function Home() {
         <KidsClassesSection />
         <KilnFiringSection />
       </main>
-      <VisualBreak />
+      {/* <VisualBreak /> */}
       <Footer />
     </>
   );
