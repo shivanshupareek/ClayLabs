@@ -16,6 +16,7 @@ export default function KilnFiringSection() {
             src="/assets/landing/kilnFiringServices/kilnFiringServices.png"
             alt=""
             fill
+            loading="eager"
             className={styles.image}
             sizes="(max-width: 1024px) 100vw, 50vw"
           />
